@@ -110,17 +110,5 @@
     </script>
 </body>
   </html>
-  function sendStkPush(phoneNumber, packageAmount) {
-    fetch('http://192.168.100.2:3000/stkpush', { // Replace with local server IP
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            phone: phoneNumber,
-            amount: packageAmount
-        })
-    })
-    .then(response => response.json())
-    .then(data => alert('STK Push sent! Enter your PIN on your phone.'))
-    .catch(error => alert('Failed to send STK Push. Try again.'));
-}
+  
 
