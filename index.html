@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wifi Mtaani - Login Portal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #0f172a, #1e3a8a); color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+        .container { width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-size: 24px; color: #38bdf8; margin-bottom: 5px; }
+        .header p { font-size: 13px; color: #94a3b8; }
+        .status-badge { display: inline-block; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 15px; }
+        .tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-size: 14px; font-weight: 600; color: #94a3b8; border-bottom: 2px solid transparent; }
+        .tab.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 5px; }
+        .form-control { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
+        .form-control:focus { border-color: #38bdf8; }
+        .btn { width: 100%; padding: 12px; background: #0284c7; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 5px; }
+        .btn:hover { background: #0369a1; }
+        .packages { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .pkg-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .pkg-card:hover, .pkg-card.selected { border-color: #38bdf8; background: rgba(56, 189, 248, 0.1); }
+        .pkg-time { font-size: 13px; color: #94a3b8; }
+        .pkg-price { font-size: 16px; font-weight: bold; color: #38bdf8; margin-top: 3px; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; }
+        .footer a { color: #38bdf8; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="status-badge">⚡ High-Speed Internet</span>
+            <h1>Wifi Mtaani</h1>
+            <p>Connect to fast and reliable community internet</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('voucher')">Voucher / Code</div>
+            <div class="tab" onclick="switchTab('mpesa')">Buy Package (STK)</div>
+        </div>
+
+        <!-- Voucher Form -->
+        <div id="voucher-section" class="form-section active">
+            <form onsubmit="event.preventDefault(); alert('Connecting via Voucher...');">
+                <div class="form-group">
+                    <label>Enter Voucher Code</label>
+                    <input type="text" class="form-control" placeholder="e.g., WM-98321" required>
+                </div>
+                <button type="submit" class="btn">Connect Now</button>
+            </form>
+        </div>
+
+        <!-- M-Pesa STK Purchase Form -->
+        <div id="mpesa-section" class="form-section">
+            <div class="packages">
+                <div class="pkg-card selected" onclick="selectPkg(this)">
+                    <div class="pkg-time">1 Hour</div>
+                    <div class="pkg-price">Ksh 10</div>
+                </div>
+                <div class="pkg-card" onclick="selectPkg(this)">
+                    <div class="pkg-time">24 Hours</div>
+                    <div class="pkg-price">Ksh 20</div>
+                </div>
+                <div class="pkg-card" onclick="selectPkg(this)">
+                    <div class="pkg-time">7 Days</div>
+                    <div class="pkg-price">Ksh 150</div>
+                </div>
+                <div class="pkg-card" onclick="selectPkg(this)">
+                    <div class="pkg-time">30 Days</div>
+                    <div class="pkg-price">Ksh 500</div>
+                </div>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('STK Push will be sent to 0726222896. Enter PIN to complete payment.');">
+                <div class="form-group">
+                    <label>M-Pesa Phone Number</label>
+                    <input type="tel" class="form-control" value="0726222896" required>
+                </div>
+                <button type="submit" class="btn">Pay & Connect</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            Need help? Contact Support: <a href="tel:+254726222896">0726 222 896</a>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            
+            if(tabName === 'voucher') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('voucher-section').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('mpesa-section').classList.add('active');
+            }
+        }
+        function selectPkg(card) {
+            document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        }
+    </script>
+</body>
+  </html>
+  
